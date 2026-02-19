@@ -22,8 +22,12 @@ Production-oriented DA Sheet app with:
 ## Backend Setup
 1. `cd backend`
 2. `npm install`
-3. Copy `.env.example` to `.env`
-4. Set `JWT_SECRET` in `.env`
+3. Create `.env` manually with:
+   - `PORT=5000`
+   - `MONGO_URI=your_mongodb_connection_string`
+   - `JWT_SECRET=your_secret_key`
+   - `CLIENT_URL=http://localhost:3000`
+   - `NODE_ENV=development`
 5. `npm run dev`
 
 Backend runs on `http://localhost:5000`.
@@ -31,7 +35,8 @@ Backend runs on `http://localhost:5000`.
 ## Frontend Setup
 1. Open another terminal and `cd frontend`
 2. `npm install`
-3. Copy `.env.local.example` to `.env.local`
+3. Create `.env.local` manually with:
+   - `NEXT_PUBLIC_API_URL=http://localhost:5000/api`
 4. `npm run dev`
 
 Frontend runs on `http://localhost:3000`.
