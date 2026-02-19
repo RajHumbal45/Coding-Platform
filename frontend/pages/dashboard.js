@@ -2,19 +2,26 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "../src/context/AuthContext";
-import { getProgress, getSheet, setProblemCompletion } from "../src/api/client";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import {
+  getAssessmentDashboardAction,
+  getAssessmentProgressUpdateAction,
+} from "../redux/actions/assessment/assessmentAction";
+import { setGlobalToasterAction } from "../redux/actions/ui/uiAction";
 import ChapterCard from "../src/components/ChapterCard";
 
 const levelOrder = ["Easy", "Medium", "Tough"];
 
 export default function DashboardPage() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { isAuthenticated, user, logout, isReady, isAdmin } = useAuth();
 
-  const [sheet, setSheet] = useState([]);
-  const [completedIds, setCompletedIds] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { sheetData, completedProblemIds } = useAppSelector(
+    (state) => state.assessmentReducer
+  );
+  const { isGlobalLoader, toaster } = useAppSelector((state) => state.uiReducer);
+
   const [query, setQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState("All");
 
@@ -28,28 +35,13 @@ export default function DashboardPage() {
       return;
     }
 
-    const fetchData = async () => {
-      setLoading(true);
-      setError("");
-
-      try {
-        const [sheetResponse, progressResponse] = await Promise.all([getSheet(), getProgress()]);
-        setSheet(sheetResponse.data || []);
-        setCompletedIds(progressResponse.completedProblemIds || []);
-      } catch (err) {
-        setError(err.message || "Failed to load dashboard");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [router, isAuthenticated, isReady]);
+    dispatch(getAssessmentDashboardAction({}));
+  }, [router, isAuthenticated, isReady, dispatch]);
 
   const filteredSheet = useMemo(() => {
     const q = query.trim().toLowerCase();
 
-    return sheet
+    return sheetData
       .map((chapter) => {
         const topics = chapter.topics
           .map((topic) => {
@@ -72,34 +64,27 @@ export default function DashboardPage() {
         return { ...chapter, topics };
       })
       .filter((chapter) => chapter.topics.length > 0);
-  }, [sheet, query, levelFilter]);
+  }, [sheetData, query, levelFilter]);
 
   const totalProblems = useMemo(() => {
-    return sheet.reduce((total, chapter) => {
+    return sheetData.reduce((total, chapter) => {
       return total + chapter.topics.reduce((topicCount, topic) => topicCount + topic.problems.length, 0);
     }, 0);
-  }, [sheet]);
+  }, [sheetData]);
 
-  const completionPercent = totalProblems ? Math.round((completedIds.length / totalProblems) * 100) : 0;
-  const totalChapters = sheet.length;
+  const completionPercent = totalProblems
+    ? Math.round((completedProblemIds.length / totalProblems) * 100)
+    : 0;
+  const totalChapters = sheetData.length;
   const activeFilterCount = (query.trim() ? 1 : 0) + (levelFilter !== "All" ? 1 : 0);
 
   const handleToggle = async (problemId, checked) => {
-    setCompletedIds((prev) => {
-      if (checked) {
-        return prev.includes(problemId) ? prev : [...prev, problemId];
-      }
-
-      return prev.filter((id) => id !== problemId);
-    });
-
-    try {
-      const response = await setProblemCompletion(problemId, checked);
-      setCompletedIds(response.completedProblemIds || []);
-      setError("");
-    } catch (err) {
-      setError(err.message || "Could not save progress");
-    }
+    dispatch(
+      getAssessmentProgressUpdateAction({
+        problemId,
+        completed: checked,
+      })
+    );
   };
 
   const handleLogout = async () => {
@@ -119,7 +104,7 @@ export default function DashboardPage() {
             <p className="eyebrow">Learning Dashboard</p>
             <h1>DA Sheet</h1>
             <p className="header-subtitle">
-              {user?.name || "Student"} | {completedIds.length}/{totalProblems} solved ({completionPercent}%)
+              {user?.name || "Student"} | {completedProblemIds.length}/{totalProblems} solved ({completionPercent}%)
             </p>
           </div>
 
@@ -148,7 +133,7 @@ export default function DashboardPage() {
         <section className="progress-banner">
           <div className="progress-meta">
             <strong>{completionPercent}% completed</strong>
-            <span>{totalProblems - completedIds.length} remaining problems</span>
+            <span>{totalProblems - completedProblemIds.length} remaining problems</span>
           </div>
           <div className="progress-bar-track">
             <div className="progress-bar-fill" style={{ width: `${completionPercent}%` }} />
@@ -162,11 +147,11 @@ export default function DashboardPage() {
           </article>
           <article className="metric-card">
             <p className="metric-label">Solved</p>
-            <strong>{completedIds.length}</strong>
+            <strong>{completedProblemIds.length}</strong>
           </article>
           <article className="metric-card">
             <p className="metric-label">Pending</p>
-            <strong>{Math.max(totalProblems - completedIds.length, 0)}</strong>
+            <strong>{Math.max(totalProblems - completedProblemIds.length, 0)}</strong>
           </article>
           <article className="metric-card">
             <p className="metric-label">Active Filters</p>
@@ -202,19 +187,30 @@ export default function DashboardPage() {
           </button>
         </section>
 
-        {loading ? <p className="status-text">Loading sheet...</p> : null}
-        {error ? <p className="error-text">{error}</p> : null}
+        {isGlobalLoader ? <p className="status-text">Loading sheet...</p> : null}
+        {toaster ? (
+          <p className={toaster.type === "error" ? "error-text" : "status-text"}>
+            {toaster.message}
+            <button
+              type="button"
+              className="ghost-btn inline-clear-btn"
+              onClick={() => dispatch(setGlobalToasterAction(null))}
+            >
+              Dismiss
+            </button>
+          </p>
+        ) : null}
 
-        {!loading && !error && filteredSheet.length === 0 ? (
+        {!isGlobalLoader && filteredSheet.length === 0 ? (
           <p className="status-text">No problems match current search/filter.</p>
         ) : null}
 
-        {!loading && !error
+        {!isGlobalLoader
           ? filteredSheet.map((chapter) => (
               <ChapterCard
                 key={chapter.id}
                 chapter={chapter}
-                completedIds={completedIds}
+                completedIds={completedProblemIds}
                 onToggle={handleToggle}
               />
             ))

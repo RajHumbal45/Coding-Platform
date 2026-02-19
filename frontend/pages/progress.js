@@ -1,17 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "../src/context/AuthContext";
-import { getProgress, getSheet } from "../src/api/client";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { getAssessmentDashboardAction } from "../redux/actions/assessment/assessmentAction";
+import { setGlobalToasterAction } from "../redux/actions/ui/uiAction";
 
 export default function ProgressPage() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { isAuthenticated, user, isReady } = useAuth();
 
-  const [sheet, setSheet] = useState([]);
-  const [completedIds, setCompletedIds] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { sheetData, completedProblemIds } = useAppSelector(
+    (state) => state.assessmentReducer
+  );
+  const { isGlobalLoader, toaster } = useAppSelector((state) => state.uiReducer);
 
   useEffect(() => {
     if (!isReady) {
@@ -23,23 +26,8 @@ export default function ProgressPage() {
       return;
     }
 
-    const fetchData = async () => {
-      setLoading(true);
-      setError("");
-
-      try {
-        const [sheetResponse, progressResponse] = await Promise.all([getSheet(), getProgress()]);
-        setSheet(sheetResponse.data || []);
-        setCompletedIds(progressResponse.completedProblemIds || []);
-      } catch (err) {
-        setError(err.message || "Failed to load progress");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [router, isAuthenticated, isReady]);
+    dispatch(getAssessmentDashboardAction({}));
+  }, [router, isAuthenticated, isReady, dispatch]);
 
   const summary = useMemo(() => {
     const levelMap = { Easy: 0, Medium: 0, Tough: 0 };
@@ -49,7 +37,7 @@ export default function ProgressPage() {
     let total = 0;
     let solved = 0;
 
-    for (const chapter of sheet) {
+    for (const chapter of sheetData) {
       let chapterTotal = 0;
       let chapterSolved = 0;
 
@@ -58,7 +46,7 @@ export default function ProgressPage() {
           total += 1;
           chapterTotal += 1;
 
-          if (completedIds.includes(problem.id)) {
+          if (completedProblemIds.includes(problem.id)) {
             solved += 1;
             chapterSolved += 1;
             levelMap[problem.level] = (levelMap[problem.level] || 0) + 1;
@@ -88,7 +76,7 @@ export default function ProgressPage() {
       chapterRows,
       solvedProblems,
     };
-  }, [sheet, completedIds]);
+  }, [sheetData, completedProblemIds]);
 
   if (!isReady || !isAuthenticated) {
     return null;
@@ -113,10 +101,21 @@ export default function ProgressPage() {
           </div>
         </header>
 
-        {loading ? <p className="status-text">Loading progress...</p> : null}
-        {error ? <p className="error-text">{error}</p> : null}
+        {isGlobalLoader ? <p className="status-text">Loading progress...</p> : null}
+        {toaster ? (
+          <p className={toaster.type === "error" ? "error-text" : "status-text"}>
+            {toaster.message}
+            <button
+              type="button"
+              className="ghost-btn inline-clear-btn"
+              onClick={() => dispatch(setGlobalToasterAction(null))}
+            >
+              Dismiss
+            </button>
+          </p>
+        ) : null}
 
-        {!loading && !error ? (
+        {!isGlobalLoader ? (
           <>
             <section className="progress-banner">
               <div className="progress-meta">
