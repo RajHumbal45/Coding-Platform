@@ -1,9 +1,9 @@
 import {
   AssessmentSetActionTypes,
-  SetAssessmentDashboardActionPayload,
-  SetAssessmentProgressUpdateActionPayload,
-  SET_ASSESSMENT_DASHBOARD,
-  SET_ASSESSMENT_PROGRESS_UPDATE,
+  SetDaSheetDashboardActionPayload,
+  SetDaSheetProgressUpdateActionPayload,
+  SET_DA_SHEET_DASHBOARD,
+  SET_DA_SHEET_PROGRESS_UPDATE,
 } from "../../actions/assessment/assessmentAction";
 import { AssessmentReducerInterface } from "./assessmentReducerInterface";
 
@@ -19,8 +19,8 @@ export const assessmentReducer = (
   action: AssessmentSetActionTypes
 ): AssessmentReducerInterface => {
   switch (action.type) {
-    case SET_ASSESSMENT_DASHBOARD: {
-      const payload = action.payload as SetAssessmentDashboardActionPayload;
+    case SET_DA_SHEET_DASHBOARD: {
+      const payload = action.payload as SetDaSheetDashboardActionPayload;
       return {
         ...state,
         sheetData: payload.sheetData,
@@ -29,8 +29,8 @@ export const assessmentReducer = (
       };
     }
 
-    case SET_ASSESSMENT_PROGRESS_UPDATE: {
-      const payload = action.payload as SetAssessmentProgressUpdateActionPayload;
+    case SET_DA_SHEET_PROGRESS_UPDATE: {
+      const payload = action.payload as SetDaSheetProgressUpdateActionPayload;
       return {
         ...state,
         completedProblemIds: payload.completedProblemIds,
@@ -42,3 +42,4 @@ export const assessmentReducer = (
       return state;
   }
 };
+

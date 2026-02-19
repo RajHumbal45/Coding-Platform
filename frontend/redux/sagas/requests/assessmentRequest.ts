@@ -11,21 +11,21 @@ interface ProgressResponse {
   completedProblemIds: string[];
 }
 
-export interface AssessmentDashboardResponse {
+export interface DaSheetDashboardResponse {
   sheetData: AssessmentChapter[];
   completedProblemIds: string[];
 }
 
-export interface UpdateAssessmentProgressRequestPayload {
+export interface UpdateDaSheetProgressRequestPayload {
   problemId: string;
   completed: boolean;
 }
 
-export interface UpdateAssessmentProgressResponse {
+export interface UpdateDaSheetProgressResponse {
   completedProblemIds: string[];
 }
 
-export const getAssessmentDashboardRequest = async (): Promise<AssessmentDashboardResponse> => {
+export const getDaSheetDashboardRequest = async (): Promise<DaSheetDashboardResponse> => {
   const [sheetResponse, progressResponse] = await Promise.all([
     StoreGet<SheetResponse>("/sheet"),
     StoreGet<ProgressResponse>("/progress"),
@@ -37,11 +37,12 @@ export const getAssessmentDashboardRequest = async (): Promise<AssessmentDashboa
   };
 };
 
-export const updateAssessmentProgressRequest = async (
-  payload: UpdateAssessmentProgressRequestPayload
-): Promise<UpdateAssessmentProgressResponse> => {
-  return StorePut<UpdateAssessmentProgressResponse>(
+export const updateDaSheetProgressRequest = async (
+  payload: UpdateDaSheetProgressRequestPayload
+): Promise<UpdateDaSheetProgressResponse> => {
+  return StorePut<UpdateDaSheetProgressResponse>(
     `/progress/${payload.problemId}`,
     { completed: payload.completed }
   );
 };
+

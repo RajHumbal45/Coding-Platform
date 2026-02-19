@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "../src/context/AuthContext";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getAssessmentDashboardAction } from "../redux/actions/assessment/assessmentAction";
+import { getDaSheetDashboardAction } from "../redux/actions/assessment/assessmentAction";
 import { setGlobalToasterAction } from "../redux/actions/ui/uiAction";
 
 export default function ProgressPage() {
@@ -26,7 +26,7 @@ export default function ProgressPage() {
       return;
     }
 
-    dispatch(getAssessmentDashboardAction({}));
+    dispatch(getDaSheetDashboardAction({}));
   }, [router, isAuthenticated, isReady, dispatch]);
 
   const summary = useMemo(() => {
@@ -185,3 +185,4 @@ export default function ProgressPage() {
     </main>
   );
 }
+

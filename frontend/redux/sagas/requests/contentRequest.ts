@@ -1,7 +1,7 @@
 import {
-  GetContentAddChapterActionPayload,
-  GetContentAddProblemActionPayload,
-  GetContentAddTopicActionPayload,
+  GetAdminContentAddChapterActionPayload,
+  GetAdminContentAddProblemActionPayload,
+  GetAdminContentAddTopicActionPayload,
 } from "../../actions/content/contentAction";
 import { AssessmentChapter } from "../../reducers/assessment/assessmentReducerInterface";
 import { StoreGet, StorePost } from "./apiRequest";
@@ -15,24 +15,24 @@ interface AdminMutationResponse {
   data: AssessmentChapter[];
 }
 
-export type ContentSheetResponse = AdminSheetResponse;
-export type ContentMutationResponse = AdminMutationResponse;
+export type AdminContentSheetResponse = AdminSheetResponse;
+export type AdminContentMutationResponse = AdminMutationResponse;
 
-export const getContentSheetRequest = (): Promise<ContentSheetResponse> =>
+export const getAdminContentSheetRequest = (): Promise<AdminContentSheetResponse> =>
   StoreGet<AdminSheetResponse>("/admin/sheet");
 
-export const addContentChapterRequest = (
-  payload: GetContentAddChapterActionPayload
-): Promise<ContentMutationResponse> =>
+export const addAdminContentChapterRequest = (
+  payload: GetAdminContentAddChapterActionPayload
+): Promise<AdminContentMutationResponse> =>
   StorePost<AdminMutationResponse>("/admin/chapter", payload);
 
-export const addContentTopicRequest = (payload: GetContentAddTopicActionPayload) =>
+export const addAdminContentTopicRequest = (payload: GetAdminContentAddTopicActionPayload) =>
   StorePost<AdminMutationResponse>(`/admin/chapter/${payload.chapterId}/topic`, {
     title: payload.title,
-  }) as Promise<ContentMutationResponse>;
+  }) as Promise<AdminContentMutationResponse>;
 
-export const addContentProblemRequest = (
-  payload: GetContentAddProblemActionPayload
+export const addAdminContentProblemRequest = (
+  payload: GetAdminContentAddProblemActionPayload
 ) =>
   StorePost<AdminMutationResponse>(
     `/admin/chapter/${payload.chapterId}/topic/${payload.topicId}/problem`,
@@ -43,4 +43,6 @@ export const addContentProblemRequest = (
       practice: payload.practice,
       article: payload.article,
     }
-  ) as Promise<ContentMutationResponse>;
+  ) as Promise<AdminContentMutationResponse>;
+
+

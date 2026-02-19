@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { useAuth } from "../src/context/AuthContext";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
-  getAssessmentDashboardAction,
-  getAssessmentProgressUpdateAction,
+  getDaSheetDashboardAction,
+  getDaSheetProgressUpdateAction,
 } from "../redux/actions/assessment/assessmentAction";
 import { setGlobalToasterAction } from "../redux/actions/ui/uiAction";
 import ChapterCard from "../src/components/ChapterCard";
@@ -35,7 +35,7 @@ export default function DashboardPage() {
       return;
     }
 
-    dispatch(getAssessmentDashboardAction({}));
+    dispatch(getDaSheetDashboardAction({}));
   }, [router, isAuthenticated, isReady, dispatch]);
 
   const filteredSheet = useMemo(() => {
@@ -80,7 +80,7 @@ export default function DashboardPage() {
 
   const handleToggle = async (problemId, checked) => {
     dispatch(
-      getAssessmentProgressUpdateAction({
+      getDaSheetProgressUpdateAction({
         problemId,
         completed: checked,
       })
@@ -219,3 +219,4 @@ export default function DashboardPage() {
     </main>
   );
 }
+

@@ -62,3 +62,68 @@ Frontend runs on `http://localhost:3000`.
 
 ## Note
 Reset password is token-based and currently returns token in API response for local/dev usage.
+
+## 4-5 Minute Demo Script (Ready To Read)
+
+Hi everyone, in this demo I’ll walk you through my DA Sheet platform built with MERN and Next.js.
+
+The idea behind this project is very practical.
+Most students already have enough DSA resources, but they don’t have one structured place to track progress consistently.
+They jump between videos, articles, and coding platforms, and lose continuity.
+So I built this platform to give them a clean chapter-wise roadmap with persistent progress tracking.
+
+Let’s start from the student side.
+This is the login page.
+A user can log in, register a new account, or reset password if needed.
+I’ll log in as a student.
+After login, we reach the dashboard.
+
+Here, the DSA sheet is organized as:
+Chapter -> Topic -> Problems.
+I can expand chapter and topic, and for each problem I get:
+- difficulty level
+- YouTube tutorial link
+- LeetCode/Codeforces practice link
+- article link for theory
+
+So the student does not need to search resources separately.
+Everything needed for one problem is available in one row.
+
+Now I’ll mark this problem as completed using the checkbox.
+This is saved in backend for this specific user.
+It is not just temporary frontend state.
+
+Next, I open the Progress page.
+Here we can clearly see:
+- overall completion percentage
+- chapter-wise progress
+- difficulty-wise solved count
+- completed problem list
+
+This gives a clear preparation snapshot and helps students know exactly what to do next.
+
+Now I’ll log out and log in again.
+The previously solved problem is still marked completed.
+So resume-from-where-you-left works correctly.
+
+Now I’ll quickly show admin flow.
+I log in with admin credentials and open the Admin Panel.
+From here, admin can add:
+- a new chapter
+- a topic inside that chapter
+- a problem inside that topic with links and level
+
+A good UX point is that admin does not need to manually create IDs.
+The backend auto-generates IDs, so admin only enters user-friendly fields.
+As soon as content is added, it becomes part of the student sheet.
+
+From architecture perspective:
+Frontend is Next.js pages router with Redux and Redux-Saga in feature-first structure.
+GET actions trigger sagas, SET actions update reducers, and API calls stay in request layer.
+That keeps components clean and maintainable.
+Backend is Express with MongoDB.
+Authentication is JWT-based with secure cookie session handling.
+Roles are separated into student and admin.
+
+So in summary, this is not just a basic tracker.
+It is a production-oriented learning workflow platform where students can prepare consistently and admins can manage content easily from one place.

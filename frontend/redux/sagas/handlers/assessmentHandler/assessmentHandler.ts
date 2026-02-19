@@ -1,41 +1,41 @@
 import { call, put } from "redux-saga/effects";
 import {
-  GetAssessmentProgressUpdateActionPayload,
-  getAssessmentDashboardAction,
-  getAssessmentProgressUpdateAction,
-  setAssessmentDashboardAction,
-  setAssessmentProgressUpdateAction,
+  GetDaSheetProgressUpdateActionPayload,
+  getDaSheetDashboardAction,
+  getDaSheetProgressUpdateAction,
+  setDaSheetDashboardAction,
+  setDaSheetProgressUpdateAction,
 } from "../../../actions/assessment/assessmentAction";
 import {
   setGlobalLoaderAction,
   setGlobalToasterAction,
 } from "../../../actions/ui/uiAction";
 import {
-  AssessmentDashboardResponse,
-  UpdateAssessmentProgressResponse,
-  getAssessmentDashboardRequest,
-  updateAssessmentProgressRequest,
+  DaSheetDashboardResponse,
+  UpdateDaSheetProgressResponse,
+  getDaSheetDashboardRequest,
+  updateDaSheetProgressRequest,
 } from "../../requests/assessmentRequest";
 
-export function* getAssessmentDashboardHandler(
-  _action: ReturnType<typeof getAssessmentDashboardAction>
+export function* getDaSheetDashboardHandler(
+  _action: ReturnType<typeof getDaSheetDashboardAction>
 ) {
   try {
     yield put(setGlobalLoaderAction(true));
 
-    const response: AssessmentDashboardResponse = yield call(
-      getAssessmentDashboardRequest
+    const response: DaSheetDashboardResponse = yield call(
+      getDaSheetDashboardRequest
     );
 
     yield put(
-      setAssessmentDashboardAction({
+      setDaSheetDashboardAction({
         sheetData: response.sheetData,
         completedProblemIds: response.completedProblemIds,
         fetchedAt: new Date().toISOString(),
       })
     );
   } catch (error) {
-    console.error("getAssessmentDashboardHandler error", error);
+    console.error("getDaSheetDashboardHandler error", error);
     yield put(
       setGlobalToasterAction({
         type: "error",
@@ -47,25 +47,25 @@ export function* getAssessmentDashboardHandler(
   }
 }
 
-export function* getAssessmentProgressUpdateHandler(
-  action: ReturnType<typeof getAssessmentProgressUpdateAction>
+export function* getDaSheetProgressUpdateHandler(
+  action: ReturnType<typeof getDaSheetProgressUpdateAction>
 ) {
   try {
-    const payload: GetAssessmentProgressUpdateActionPayload = action.payload;
+    const payload: GetDaSheetProgressUpdateActionPayload = action.payload;
 
-    const response: UpdateAssessmentProgressResponse = yield call(
-      updateAssessmentProgressRequest,
+    const response: UpdateDaSheetProgressResponse = yield call(
+      updateDaSheetProgressRequest,
       payload
     );
 
     yield put(
-      setAssessmentProgressUpdateAction({
+      setDaSheetProgressUpdateAction({
         completedProblemIds: response.completedProblemIds,
         lastUpdatedProblemId: payload.problemId,
       })
     );
   } catch (error) {
-    console.error("getAssessmentProgressUpdateHandler error", error);
+    console.error("getDaSheetProgressUpdateHandler error", error);
     yield put(
       setGlobalToasterAction({
         type: "error",
@@ -74,3 +74,4 @@ export function* getAssessmentProgressUpdateHandler(
     );
   }
 }
+

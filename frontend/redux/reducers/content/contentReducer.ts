@@ -1,13 +1,13 @@
 import {
   ContentSetActionTypes,
-  SetContentAddChapterActionPayload,
-  SetContentAddProblemActionPayload,
-  SetContentAddTopicActionPayload,
-  SetContentSheetActionPayload,
-  SET_CONTENT_ADD_CHAPTER,
-  SET_CONTENT_ADD_PROBLEM,
-  SET_CONTENT_ADD_TOPIC,
-  SET_CONTENT_SHEET,
+  SetAdminContentAddChapterActionPayload,
+  SetAdminContentAddProblemActionPayload,
+  SetAdminContentAddTopicActionPayload,
+  SetAdminContentSheetActionPayload,
+  SET_ADMIN_CONTENT_ADD_CHAPTER,
+  SET_ADMIN_CONTENT_ADD_PROBLEM,
+  SET_ADMIN_CONTENT_ADD_TOPIC,
+  SET_ADMIN_CONTENT_SHEET,
 } from "../../actions/content/contentAction";
 import { ContentReducerInterface } from "./contentReducerInterface";
 
@@ -23,8 +23,8 @@ export const contentReducer = (
   action: ContentSetActionTypes
 ): ContentReducerInterface => {
   switch (action.type) {
-    case SET_CONTENT_SHEET: {
-      const payload = action.payload as SetContentSheetActionPayload;
+    case SET_ADMIN_CONTENT_SHEET: {
+      const payload = action.payload as SetAdminContentSheetActionPayload;
       return {
         ...state,
         adminSheetData: payload.adminSheetData,
@@ -32,8 +32,8 @@ export const contentReducer = (
       };
     }
 
-    case SET_CONTENT_ADD_CHAPTER: {
-      const payload = action.payload as SetContentAddChapterActionPayload;
+    case SET_ADMIN_CONTENT_ADD_CHAPTER: {
+      const payload = action.payload as SetAdminContentAddChapterActionPayload;
       return {
         ...state,
         adminSheetData: payload.adminSheetData,
@@ -42,8 +42,8 @@ export const contentReducer = (
       };
     }
 
-    case SET_CONTENT_ADD_TOPIC: {
-      const payload = action.payload as SetContentAddTopicActionPayload;
+    case SET_ADMIN_CONTENT_ADD_TOPIC: {
+      const payload = action.payload as SetAdminContentAddTopicActionPayload;
       return {
         ...state,
         adminSheetData: payload.adminSheetData,
@@ -52,8 +52,8 @@ export const contentReducer = (
       };
     }
 
-    case SET_CONTENT_ADD_PROBLEM: {
-      const payload = action.payload as SetContentAddProblemActionPayload;
+    case SET_ADMIN_CONTENT_ADD_PROBLEM: {
+      const payload = action.payload as SetAdminContentAddProblemActionPayload;
       return {
         ...state,
         adminSheetData: payload.adminSheetData,
@@ -66,3 +66,4 @@ export const contentReducer = (
       return state;
   }
 };
+

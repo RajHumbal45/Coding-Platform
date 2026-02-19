@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import { useAuth } from "../src/context/AuthContext";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
-  getContentAddChapterAction,
-  getContentAddProblemAction,
-  getContentAddTopicAction,
-  getContentSheetAction,
+  getAdminContentAddChapterAction,
+  getAdminContentAddProblemAction,
+  getAdminContentAddTopicAction,
+  getAdminContentSheetAction,
 } from "../redux/actions/content/contentAction";
 import { setGlobalToasterAction } from "../redux/actions/ui/uiAction";
 
@@ -50,19 +50,19 @@ export default function AdminPage() {
       return;
     }
 
-    dispatch(getContentSheetAction({}));
+    dispatch(getAdminContentSheetAction({}));
   }, [isReady, isAuthenticated, isAdmin, router, dispatch]);
 
   const submitChapter = (event) => {
     event.preventDefault();
-    dispatch(getContentAddChapterAction({ chapter: chapterForm.chapter }));
+    dispatch(getAdminContentAddChapterAction({ chapter: chapterForm.chapter }));
     setChapterForm({ chapter: "" });
   };
 
   const submitTopic = (event) => {
     event.preventDefault();
     dispatch(
-      getContentAddTopicAction({
+      getAdminContentAddTopicAction({
         chapterId: topicForm.chapterId,
         title: topicForm.title,
       })
@@ -73,7 +73,7 @@ export default function AdminPage() {
   const submitProblem = (event) => {
     event.preventDefault();
     dispatch(
-      getContentAddProblemAction({
+      getAdminContentAddProblemAction({
         chapterId: problemForm.chapterId,
         topicId: problemForm.topicId,
         title: problemForm.title,
@@ -250,3 +250,4 @@ export default function AdminPage() {
     </main>
   );
 }
+

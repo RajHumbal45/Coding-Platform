@@ -1,45 +1,45 @@
 import { call, put } from "redux-saga/effects";
 import {
-  getContentAddChapterAction,
-  getContentAddProblemAction,
-  getContentAddTopicAction,
-  getContentSheetAction,
-  setContentAddChapterAction,
-  setContentAddProblemAction,
-  setContentAddTopicAction,
-  setContentSheetAction,
+  getAdminContentAddChapterAction,
+  getAdminContentAddProblemAction,
+  getAdminContentAddTopicAction,
+  getAdminContentSheetAction,
+  setAdminContentAddChapterAction,
+  setAdminContentAddProblemAction,
+  setAdminContentAddTopicAction,
+  setAdminContentSheetAction,
 } from "../../../actions/content/contentAction";
 import {
   setGlobalLoaderAction,
   setGlobalToasterAction,
 } from "../../../actions/ui/uiAction";
 import {
-  addContentChapterRequest,
-  addContentProblemRequest,
-  addContentTopicRequest,
-  ContentMutationResponse,
-  ContentSheetResponse,
-  getContentSheetRequest,
+  addAdminContentChapterRequest,
+  addAdminContentProblemRequest,
+  addAdminContentTopicRequest,
+  AdminContentMutationResponse,
+  AdminContentSheetResponse,
+  getAdminContentSheetRequest,
 } from "../../requests/contentRequest";
 
-export function* getContentSheetHandler(
-  _action: ReturnType<typeof getContentSheetAction>
+export function* getAdminContentSheetHandler(
+  _action: ReturnType<typeof getAdminContentSheetAction>
 ) {
   try {
     yield put(setGlobalLoaderAction(true));
 
-    const response: ContentSheetResponse = yield call(
-      getContentSheetRequest
+    const response: AdminContentSheetResponse = yield call(
+      getAdminContentSheetRequest
     );
 
     yield put(
-      setContentSheetAction({
+      setAdminContentSheetAction({
         adminSheetData: response.data || [],
         fetchedAt: new Date().toISOString(),
       })
     );
   } catch (error) {
-    console.error("getContentSheetHandler error", error);
+    console.error("getAdminContentSheetHandler error", error);
     yield put(
       setGlobalToasterAction({
         type: "error",
@@ -51,19 +51,19 @@ export function* getContentSheetHandler(
   }
 }
 
-export function* getContentAddChapterHandler(
-  action: ReturnType<typeof getContentAddChapterAction>
+export function* getAdminContentAddChapterHandler(
+  action: ReturnType<typeof getAdminContentAddChapterAction>
 ) {
   try {
     yield put(setGlobalLoaderAction(true));
 
-    const response: ContentMutationResponse = yield call(
-      addContentChapterRequest,
+    const response: AdminContentMutationResponse = yield call(
+      addAdminContentChapterRequest,
       action.payload
     );
 
     yield put(
-      setContentAddChapterAction({
+      setAdminContentAddChapterAction({
         adminSheetData: response.data || [],
         message: response.message || "Chapter created",
       })
@@ -75,7 +75,7 @@ export function* getContentAddChapterHandler(
       })
     );
   } catch (error) {
-    console.error("getContentAddChapterHandler error", error);
+    console.error("getAdminContentAddChapterHandler error", error);
     yield put(
       setGlobalToasterAction({
         type: "error",
@@ -87,19 +87,19 @@ export function* getContentAddChapterHandler(
   }
 }
 
-export function* getContentAddTopicHandler(
-  action: ReturnType<typeof getContentAddTopicAction>
+export function* getAdminContentAddTopicHandler(
+  action: ReturnType<typeof getAdminContentAddTopicAction>
 ) {
   try {
     yield put(setGlobalLoaderAction(true));
 
-    const response: ContentMutationResponse = yield call(
-      addContentTopicRequest,
+    const response: AdminContentMutationResponse = yield call(
+      addAdminContentTopicRequest,
       action.payload
     );
 
     yield put(
-      setContentAddTopicAction({
+      setAdminContentAddTopicAction({
         adminSheetData: response.data || [],
         message: response.message || "Topic created",
       })
@@ -111,7 +111,7 @@ export function* getContentAddTopicHandler(
       })
     );
   } catch (error) {
-    console.error("getContentAddTopicHandler error", error);
+    console.error("getAdminContentAddTopicHandler error", error);
     yield put(
       setGlobalToasterAction({
         type: "error",
@@ -123,19 +123,19 @@ export function* getContentAddTopicHandler(
   }
 }
 
-export function* getContentAddProblemHandler(
-  action: ReturnType<typeof getContentAddProblemAction>
+export function* getAdminContentAddProblemHandler(
+  action: ReturnType<typeof getAdminContentAddProblemAction>
 ) {
   try {
     yield put(setGlobalLoaderAction(true));
 
-    const response: ContentMutationResponse = yield call(
-      addContentProblemRequest,
+    const response: AdminContentMutationResponse = yield call(
+      addAdminContentProblemRequest,
       action.payload
     );
 
     yield put(
-      setContentAddProblemAction({
+      setAdminContentAddProblemAction({
         adminSheetData: response.data || [],
         message: response.message || "Problem created",
       })
@@ -147,7 +147,7 @@ export function* getContentAddProblemHandler(
       })
     );
   } catch (error) {
-    console.error("getContentAddProblemHandler error", error);
+    console.error("getAdminContentAddProblemHandler error", error);
     yield put(
       setGlobalToasterAction({
         type: "error",
@@ -158,3 +158,5 @@ export function* getContentAddProblemHandler(
     yield put(setGlobalLoaderAction(false));
   }
 }
+
+

@@ -1,46 +1,46 @@
 import { AssessmentChapter } from "../../reducers/assessment/assessmentReducerInterface";
 
-export const GET_CONTENT_SHEET = "GET_CONTENT_SHEET";
-export const SET_CONTENT_SHEET = "SET_CONTENT_SHEET";
+export const GET_ADMIN_CONTENT_SHEET = "GET_ADMIN_CONTENT_SHEET";
+export const SET_ADMIN_CONTENT_SHEET = "SET_ADMIN_CONTENT_SHEET";
 
-export const GET_CONTENT_ADD_CHAPTER = "GET_CONTENT_ADD_CHAPTER";
-export const SET_CONTENT_ADD_CHAPTER = "SET_CONTENT_ADD_CHAPTER";
+export const GET_ADMIN_CONTENT_ADD_CHAPTER = "GET_ADMIN_CONTENT_ADD_CHAPTER";
+export const SET_ADMIN_CONTENT_ADD_CHAPTER = "SET_ADMIN_CONTENT_ADD_CHAPTER";
 
-export const GET_CONTENT_ADD_TOPIC = "GET_CONTENT_ADD_TOPIC";
-export const SET_CONTENT_ADD_TOPIC = "SET_CONTENT_ADD_TOPIC";
+export const GET_ADMIN_CONTENT_ADD_TOPIC = "GET_ADMIN_CONTENT_ADD_TOPIC";
+export const SET_ADMIN_CONTENT_ADD_TOPIC = "SET_ADMIN_CONTENT_ADD_TOPIC";
 
-export const GET_CONTENT_ADD_PROBLEM = "GET_CONTENT_ADD_PROBLEM";
-export const SET_CONTENT_ADD_PROBLEM = "SET_CONTENT_ADD_PROBLEM";
+export const GET_ADMIN_CONTENT_ADD_PROBLEM = "GET_ADMIN_CONTENT_ADD_PROBLEM";
+export const SET_ADMIN_CONTENT_ADD_PROBLEM = "SET_ADMIN_CONTENT_ADD_PROBLEM";
 
-export interface GetContentSheetActionPayload {
+export interface GetAdminContentSheetActionPayload {
   forceRefresh?: boolean;
 }
 
-export interface SetContentSheetActionPayload {
+export interface SetAdminContentSheetActionPayload {
   adminSheetData: AssessmentChapter[];
   fetchedAt: string;
 }
 
-export interface GetContentAddChapterActionPayload {
+export interface GetAdminContentAddChapterActionPayload {
   chapter: string;
 }
 
-export interface SetContentAddChapterActionPayload {
+export interface SetAdminContentAddChapterActionPayload {
   adminSheetData: AssessmentChapter[];
   message: string;
 }
 
-export interface GetContentAddTopicActionPayload {
+export interface GetAdminContentAddTopicActionPayload {
   chapterId: string;
   title: string;
 }
 
-export interface SetContentAddTopicActionPayload {
+export interface SetAdminContentAddTopicActionPayload {
   adminSheetData: AssessmentChapter[];
   message: string;
 }
 
-export interface GetContentAddProblemActionPayload {
+export interface GetAdminContentAddProblemActionPayload {
   chapterId: string;
   topicId: string;
   title: string;
@@ -50,63 +50,64 @@ export interface GetContentAddProblemActionPayload {
   article: string;
 }
 
-export interface SetContentAddProblemActionPayload {
+export interface SetAdminContentAddProblemActionPayload {
   adminSheetData: AssessmentChapter[];
   message: string;
 }
 
-export const getContentSheetAction = (payload: GetContentSheetActionPayload = {}) => ({
-  type: GET_CONTENT_SHEET,
+export const getAdminContentSheetAction = (payload: GetAdminContentSheetActionPayload = {}) => ({
+  type: GET_ADMIN_CONTENT_SHEET,
   payload,
 });
 
-export const setContentSheetAction = (payload: SetContentSheetActionPayload) => ({
-  type: SET_CONTENT_SHEET,
+export const setAdminContentSheetAction = (payload: SetAdminContentSheetActionPayload) => ({
+  type: SET_ADMIN_CONTENT_SHEET,
   payload,
 });
 
-export const getContentAddChapterAction = (payload: GetContentAddChapterActionPayload) => ({
-  type: GET_CONTENT_ADD_CHAPTER,
+export const getAdminContentAddChapterAction = (payload: GetAdminContentAddChapterActionPayload) => ({
+  type: GET_ADMIN_CONTENT_ADD_CHAPTER,
   payload,
 });
 
-export const setContentAddChapterAction = (payload: SetContentAddChapterActionPayload) => ({
-  type: SET_CONTENT_ADD_CHAPTER,
+export const setAdminContentAddChapterAction = (payload: SetAdminContentAddChapterActionPayload) => ({
+  type: SET_ADMIN_CONTENT_ADD_CHAPTER,
   payload,
 });
 
-export const getContentAddTopicAction = (payload: GetContentAddTopicActionPayload) => ({
-  type: GET_CONTENT_ADD_TOPIC,
+export const getAdminContentAddTopicAction = (payload: GetAdminContentAddTopicActionPayload) => ({
+  type: GET_ADMIN_CONTENT_ADD_TOPIC,
   payload,
 });
 
-export const setContentAddTopicAction = (payload: SetContentAddTopicActionPayload) => ({
-  type: SET_CONTENT_ADD_TOPIC,
+export const setAdminContentAddTopicAction = (payload: SetAdminContentAddTopicActionPayload) => ({
+  type: SET_ADMIN_CONTENT_ADD_TOPIC,
   payload,
 });
 
-export const getContentAddProblemAction = (payload: GetContentAddProblemActionPayload) => ({
-  type: GET_CONTENT_ADD_PROBLEM,
+export const getAdminContentAddProblemAction = (payload: GetAdminContentAddProblemActionPayload) => ({
+  type: GET_ADMIN_CONTENT_ADD_PROBLEM,
   payload,
 });
 
-export const setContentAddProblemAction = (payload: SetContentAddProblemActionPayload) => ({
-  type: SET_CONTENT_ADD_PROBLEM,
+export const setAdminContentAddProblemAction = (payload: SetAdminContentAddProblemActionPayload) => ({
+  type: SET_ADMIN_CONTENT_ADD_PROBLEM,
   payload,
 });
 
 export type ContentActionTypes =
-  | ReturnType<typeof getContentSheetAction>
-  | ReturnType<typeof setContentSheetAction>
-  | ReturnType<typeof getContentAddChapterAction>
-  | ReturnType<typeof setContentAddChapterAction>
-  | ReturnType<typeof getContentAddTopicAction>
-  | ReturnType<typeof setContentAddTopicAction>
-  | ReturnType<typeof getContentAddProblemAction>
-  | ReturnType<typeof setContentAddProblemAction>;
+  | ReturnType<typeof getAdminContentSheetAction>
+  | ReturnType<typeof setAdminContentSheetAction>
+  | ReturnType<typeof getAdminContentAddChapterAction>
+  | ReturnType<typeof setAdminContentAddChapterAction>
+  | ReturnType<typeof getAdminContentAddTopicAction>
+  | ReturnType<typeof setAdminContentAddTopicAction>
+  | ReturnType<typeof getAdminContentAddProblemAction>
+  | ReturnType<typeof setAdminContentAddProblemAction>;
 
 export type ContentSetActionTypes =
-  | ReturnType<typeof setContentSheetAction>
-  | ReturnType<typeof setContentAddChapterAction>
-  | ReturnType<typeof setContentAddTopicAction>
-  | ReturnType<typeof setContentAddProblemAction>;
+  | ReturnType<typeof setAdminContentSheetAction>
+  | ReturnType<typeof setAdminContentAddChapterAction>
+  | ReturnType<typeof setAdminContentAddTopicAction>
+  | ReturnType<typeof setAdminContentAddProblemAction>;
+

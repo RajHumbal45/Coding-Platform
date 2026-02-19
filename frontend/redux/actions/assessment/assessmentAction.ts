@@ -1,64 +1,65 @@
 import { AssessmentChapter } from "../../reducers/assessment/assessmentReducerInterface";
 
-export const GET_ASSESSMENT_DASHBOARD = "GET_ASSESSMENT_DASHBOARD";
-export const SET_ASSESSMENT_DASHBOARD = "SET_ASSESSMENT_DASHBOARD";
-export const GET_ASSESSMENT_PROGRESS_UPDATE = "GET_ASSESSMENT_PROGRESS_UPDATE";
-export const SET_ASSESSMENT_PROGRESS_UPDATE = "SET_ASSESSMENT_PROGRESS_UPDATE";
+export const GET_DA_SHEET_DASHBOARD = "GET_DA_SHEET_DASHBOARD";
+export const SET_DA_SHEET_DASHBOARD = "SET_DA_SHEET_DASHBOARD";
+export const GET_DA_SHEET_PROGRESS_UPDATE = "GET_DA_SHEET_PROGRESS_UPDATE";
+export const SET_DA_SHEET_PROGRESS_UPDATE = "SET_DA_SHEET_PROGRESS_UPDATE";
 
-export interface GetAssessmentDashboardActionPayload {
+export interface GetDaSheetDashboardActionPayload {
   forceRefresh?: boolean;
 }
 
-export interface SetAssessmentDashboardActionPayload {
+export interface SetDaSheetDashboardActionPayload {
   sheetData: AssessmentChapter[];
   completedProblemIds: string[];
   fetchedAt: string;
 }
 
-export interface GetAssessmentProgressUpdateActionPayload {
+export interface GetDaSheetProgressUpdateActionPayload {
   problemId: string;
   completed: boolean;
 }
 
-export interface SetAssessmentProgressUpdateActionPayload {
+export interface SetDaSheetProgressUpdateActionPayload {
   completedProblemIds: string[];
   lastUpdatedProblemId: string;
 }
 
-export const getAssessmentDashboardAction = (
-  payload: GetAssessmentDashboardActionPayload = {}
+export const getDaSheetDashboardAction = (
+  payload: GetDaSheetDashboardActionPayload = {}
 ) => ({
-  type: GET_ASSESSMENT_DASHBOARD,
+  type: GET_DA_SHEET_DASHBOARD,
   payload,
 });
 
-export const setAssessmentDashboardAction = (
-  payload: SetAssessmentDashboardActionPayload
+export const setDaSheetDashboardAction = (
+  payload: SetDaSheetDashboardActionPayload
 ) => ({
-  type: SET_ASSESSMENT_DASHBOARD,
+  type: SET_DA_SHEET_DASHBOARD,
   payload,
 });
 
-export const getAssessmentProgressUpdateAction = (
-  payload: GetAssessmentProgressUpdateActionPayload
+export const getDaSheetProgressUpdateAction = (
+  payload: GetDaSheetProgressUpdateActionPayload
 ) => ({
-  type: GET_ASSESSMENT_PROGRESS_UPDATE,
+  type: GET_DA_SHEET_PROGRESS_UPDATE,
   payload,
 });
 
-export const setAssessmentProgressUpdateAction = (
-  payload: SetAssessmentProgressUpdateActionPayload
+export const setDaSheetProgressUpdateAction = (
+  payload: SetDaSheetProgressUpdateActionPayload
 ) => ({
-  type: SET_ASSESSMENT_PROGRESS_UPDATE,
+  type: SET_DA_SHEET_PROGRESS_UPDATE,
   payload,
 });
 
 export type AssessmentActionTypes =
-  | ReturnType<typeof setAssessmentDashboardAction>
-  | ReturnType<typeof setAssessmentProgressUpdateAction>
-  | ReturnType<typeof getAssessmentDashboardAction>
-  | ReturnType<typeof getAssessmentProgressUpdateAction>;
+  | ReturnType<typeof setDaSheetDashboardAction>
+  | ReturnType<typeof setDaSheetProgressUpdateAction>
+  | ReturnType<typeof getDaSheetDashboardAction>
+  | ReturnType<typeof getDaSheetProgressUpdateAction>;
 
 export type AssessmentSetActionTypes =
-  | ReturnType<typeof setAssessmentDashboardAction>
-  | ReturnType<typeof setAssessmentProgressUpdateAction>;
+  | ReturnType<typeof setDaSheetDashboardAction>
+  | ReturnType<typeof setDaSheetProgressUpdateAction>;
+
